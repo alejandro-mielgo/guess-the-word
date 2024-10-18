@@ -1,0 +1,31 @@
+.box {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  border: solid rgb(120, 120, 120) 1px;
+  font-size: x-large;
+  margin: 3px;
+  text-align: center;
+}
+
+.green {
+  background-color: rgba(42, 156, 36, 0.5);
+  border: solid 3px rgb(42, 156, 36);
+}
+.yellow{
+  background-color: rgba(199, 173, 45, 0.5);
+  border: solid 3px rgba(199, 173, 45, 1);
+}
+.grey {
+  background-color: rgba(178, 80, 80, 0.5);
+  border: solid 3px rgba(178, 80, 80, 1);
+}
+.empty{
+  background-color: rgba(125, 125, 125, 0);
+}
+
+h1 {
+  text-align: center;
+  margin: 30px ;
+}
+
