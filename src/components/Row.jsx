@@ -28,13 +28,13 @@ const Letter = ({ wordArray, index, getGuess, guessed }) => {
 }
 
 
-const Row = ({ wordArray, updateGameStatus, tries }) => {
+const Row = ({ wordArray, updateGameStatus }) => {
 
-    const [wordGuess, setWordGuess] = useState([...Array(wordArray.length)])
+    const [wordGuess, setWordGuess] = useState([...Array(5)])
     const [guessed, setGuessed] = useState(false)
 
     const handleGuessButton = (event) => {
-      
+        console.log("wordGuess desde Row ", wordGuess)
         if (wordGuess.some(letter =>letter==undefined) || wordGuess.some(letter =>letter=="")) { 
             alert('please fill all letter fields')
             return

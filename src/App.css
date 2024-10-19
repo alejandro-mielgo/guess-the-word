@@ -34,3 +34,11 @@ h1 {
   margin: 30px ;
 }
 
+li{
+  list-style-type: none;
+}
+
+.message{
+  font-size: 30px;
+}
+
