@@ -2,48 +2,49 @@ import { useState, useEffect } from 'react'
 import Row from './components/Row'
   
 function App() {
-  const [ wordArray, setWordArray ] = useState([])
-  const nRows = 6
-  const [ tries, setTries ] = useState(0)
-  const [ message, setMessage ] = useState("You have 6 tries to guess the word")
   
+  let message = 'You have 6 tries to win the game'
+
+  const  [ wordArray, setWordAray]= useState([])
+  const [ gameState, setGameState] = useState("playing")
+  const [ count, setCount ] = useState(0)
+
   const fetchData = () =>{
     const url = `https://random-word-api.herokuapp.com/word?length=5`
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        setWordArray(data[0].split(''))
+        setWordAray(data[0].split(''))
+        console.log('word from fetch:', wordArray)
       })
   }
-  useEffect(() =>{
-    fetchData()
-  },[])
 
+  useEffect(fetchData,[])
 
-  
-  const updateGameStatus = (status) => {
-    const aTries = tries + 1
-    setTries(aTries)
-    console.log('tries:',aTries)
-    if (aTries===nRows) {
-      setMessage(`You lost,the word was ${wordArray.join("")}`)
-    } else {
-      setMessage (status==="win" ? "You won!" : `Wrong guess ${aTries}/${nRows} `)
-    }
+  const updateGameState = (state) => {
+    setGameState(state)
+    setCount(count => count + 1)
   }
 
-  const rowList = []
-  for (let i=0; i < nRows; i++ ){
-    rowList.push(<li key={`li${i}`}><Row wordArray={wordArray} key={`row_${i}`} id={`row_${i}`} updateGameStatus={updateGameStatus}/></li>)
-  }
 
+  if(gameState === 'win'){
+    message = 'You Won!'
+  } else if (count >=6 && gameState=='playing') {
+    message = `You Lost! the word was ${wordArray.join('')} `
+    console.log(message)
+  }
 
   return (
     <div>
       <h1 className='display-3 hover-shadow'>Guess the Word</h1>
-      <p className="text-center">{} </p>
+      <p className="text-center"></p>
       <div className='text-center'>
-        <ul>{rowList}</ul>
+        <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
+        <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
+        <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
+        <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
+        <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
+        <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
         <div><p className='message'>{message}</p></div>
       </div>
     </div>

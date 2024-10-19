@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-const Letter = ({ wordArray, index, getGuess, guessed }) => {
-
-    const [boxStatus,setBoxStatus] = useState('empty')
+const Cell = ({ guessed, wordArray, index} ) =>{
+    
+    const [color, setColor] = useState(null)
 
     const readLetter = (event) => {
         let guess = event.target.value
@@ -10,61 +10,78 @@ const Letter = ({ wordArray, index, getGuess, guessed }) => {
             event.target.value = guess.substr(0, 1);
             guess = guess.substr(0, 1)
         }
-        event.target.nextSibling.focus()
 
-        getGuess(index,guess)
-        if(guess.toLowerCase() === wordArray[index].toLowerCase() ){
-            setBoxStatus("green")
-        } else if (wordArray.includes(guess)){
-            setBoxStatus("yellow")
+        if (guess === wordArray[index]){
+            setColor('green')
+        } else if ( wordArray.includes(guess) ){
+            setColor('yellow')
         } else {
-           setBoxStatus("grey") 
+            setColor('grey')
         }
+    }
 
-    }    
-    return (
-        <input className={`box ${guessed ? boxStatus : null}`}  onChange={readLetter} disabled={guessed} ></input>
-    )  
+    const handleOnKeyUp = (event) => {
+        console.log(event.target.value)
+        if ( event.keyCode === 8 ) {
+            try{
+                event.target.previousSibling.focus()
+            } catch {
+            }       
+        } else {
+            event.target.nextSibling.focus()
+        }
+    }
+
+    return(
+        <>
+            <input className={`box ${guessed?color:null}`}  onChange={readLetter} onKeyUp={(handleOnKeyUp)} disabled={guessed}></input>
+        </>
+        )
+    
 }
 
+const Row = ({ wordArray, updateGameState }) => {
 
-const Row = ({ wordArray, updateGameStatus }) => {
 
-    const [wordGuess, setWordGuess] = useState([...Array(5)])
     const [guessed, setGuessed] = useState(false)
 
-    const handleGuessButton = (event) => {
-        console.log("wordGuess desde Row ", wordGuess)
-        if (wordGuess.some(letter =>letter==undefined) || wordGuess.some(letter =>letter=="")) { 
-            alert('please fill all letter fields')
+    const handleGuessButton = (event) =>{
+        const newGuess=[]
+        const boxes = Array.from(event.target.parentElement.querySelectorAll('input'))
+        for (const box of boxes) {
+            newGuess.push(box.value)
+        }
+        console.log('guess', newGuess)
+        if (newGuess.includes('')){
+            console.log('celda vacia')
             return
         }
-        setGuessed(true)
 
-        if (wordArray.join('') === wordGuess.join('')) {
-            updateGameStatus('win')
+        if(newGuess.join('') === wordArray.join('')) {
+            console.log('you won')
+            updateGameState('win')
         } else {
-            updateGameStatus('wrong_guess')
+            updateGameState('playing')
         }
+        setGuessed (true)
     }
 
-    const getGuess = (index,guessedLetter) =>{ //Extract a guess array from the Letter component
-        const auxWordGuess = [...wordGuess]
-        auxWordGuess[index] = guessedLetter
-        setWordGuess( auxWordGuess )
-    }
+
 
     return (
-        <>
-            {wordArray.map((letter, i) => <Letter wordArray={wordArray} key={i} index={i} getGuess={getGuess} guessed={guessed}/>)}
-            
+        <div>
+            <Cell guessed={guessed} wordArray={wordArray} index={0}/>
+            <Cell guessed={guessed} wordArray={wordArray} index={1}/>
+            <Cell guessed={guessed} wordArray={wordArray} index={2}/>
+            <Cell guessed={guessed} wordArray={wordArray} index={3}/>
+            <Cell guessed={guessed} wordArray={wordArray} index={4}/>
             <button 
             className="btn btn-secondary mx-3" 
-            onClick={() => handleGuessButton(wordArray, wordGuess)} 
+            onClick={handleGuessButton}
             disabled={guessed}>
                 Guess
             </button>
-        </>
+        </div>
     )
 }
 
