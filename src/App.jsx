@@ -26,7 +26,7 @@ function App() {
     setTries(aTries)
     console.log('tries:',aTries)
     if (aTries===nRows) {
-      setMessage("You lost")
+      setMessage(`You lost,the word was ${wordArray.join("")}`)
     } else {
       setMessage (status==="win" ? "You won!" : `Wrong guess ${aTries}/${nRows} `)
     }
