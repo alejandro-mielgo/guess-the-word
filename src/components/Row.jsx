@@ -28,7 +28,7 @@ const Letter = ({ wordArray, index, getGuess, guessed }) => {
 }
 
 
-const Row = ({ wordArray }) => {
+const Row = ({ wordArray, updateGameStatus, tries }) => {
 
     const [wordGuess, setWordGuess] = useState([...Array(wordArray.length)])
     const [guessed, setGuessed] = useState(false)
@@ -39,12 +39,12 @@ const Row = ({ wordArray }) => {
             alert('please fill all letter fields')
             return
         }
-
         setGuessed(true)
+
         if (wordArray.join('') === wordGuess.join('')) {
-            console.log(wordArray)
-            console.log(wordGuess)
-            console.log("You Won!")
+            updateGameStatus('win')
+        } else {
+            updateGameStatus('wrong_guess')
         }
     }
 
