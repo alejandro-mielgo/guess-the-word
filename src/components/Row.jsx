@@ -57,7 +57,7 @@ const Row = ({ wordArray, updateGameState }) => {
             return
         }
 
-        if(newGuess.join('') === wordArray.join('')) {
+        if(newGuess.join('').toLowerCase() === wordArray.join('').toLowerCase()) {
             console.log('you won')
             updateGameState('win')
         } else {
