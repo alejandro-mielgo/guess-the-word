@@ -11,9 +11,9 @@ const Cell = ({ guessed, wordArray, index} ) =>{
             guess = guess.substr(0, 1)
         }
 
-        if (guess === wordArray[index]){
+        if (guess.toLowerCase() === wordArray[index].toLowerCase()){
             setColor('green')
-        } else if ( wordArray.includes(guess) ){
+        } else if ( wordArray.includes(guess.toLowerCase()) ){
             setColor('yellow')
         } else {
             setColor('grey')
@@ -69,7 +69,7 @@ const Row = ({ wordArray, updateGameState }) => {
 
 
     return (
-        <div>
+        <div className="">
             <Cell guessed={guessed} wordArray={wordArray} index={0}/>
             <Cell guessed={guessed} wordArray={wordArray} index={1}/>
             <Cell guessed={guessed} wordArray={wordArray} index={2}/>

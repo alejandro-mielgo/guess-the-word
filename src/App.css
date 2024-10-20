@@ -1,6 +1,6 @@
 .box {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 6px;
   border: solid rgb(120, 120, 120) 1px;
   font-size: 30px;
@@ -40,5 +40,10 @@ li{
 
 .message{
   font-size: 30px;
+}
+
+button{
+  position: relative;
+  top: -9px
 }
 

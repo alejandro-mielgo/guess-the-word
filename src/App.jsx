@@ -3,10 +3,10 @@ import Row from './components/Row'
   
 function App() {
   
-  let message = 'You have 6 tries to win the game'
+  let message = 'You have 6 tries to guess the word'
 
   const  [ wordArray, setWordAray]= useState([])
-  const [ gameState, setGameState] = useState("playing")
+  const [ gameState, setGameState] = useState("begin")
   const [ count, setCount ] = useState(0)
 
   const fetchData = () =>{
@@ -32,6 +32,8 @@ function App() {
   } else if (count >=6 && gameState=='playing') {
     message = `You Lost! the word was ${wordArray.join('')} `
     console.log(message)
+  } else if(gameState=='playing') {
+    message = `try ${count} out of 6`
   }
 
   return (
