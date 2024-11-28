@@ -13,13 +13,18 @@ function App() {
     const url = `https://random-word-api.herokuapp.com/word?length=5`
    
     fetch(url)
-      .then(response => response.json())
+      .then(response => { 
+        if(response.ok){
+          return response.json()
+        }
+        throw new Error('something went wrong with the fetching promise')
+      })
       .then(data => {
         console.log(data)
         setWordAray(data[0].split(''))
         console.log('word from fetch:', wordArray)
       })
-      .catch(error => console.log('error'))
+      .catch(error => console.log(error))
   }
 
   useEffect(fetchData,[])
@@ -27,6 +32,10 @@ function App() {
   const updateGameState = (state) => {
     setGameState(state)
     setCount(count => count + 1)
+  }
+
+  function handle_reload(){
+    location.reload()
   }
 
 
@@ -41,7 +50,7 @@ function App() {
 
   return (
     <div>
-      <h1 className='display-4 hover-shadow'>Guess the Word</h1>
+      <h1 className='display-5 hover-shadow'>Guess the Word</h1>
       <p className="text-center"></p>
       <div className='text-center'>
         <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
@@ -51,6 +60,7 @@ function App() {
         <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
         <Row wordArray={wordArray} updateGameState={updateGameState} /> <br/>
         <div><p className='message'>{message}</p></div>
+        { count == 6 ? <button className='btn btn-primary' onClick={handle_reload}>Play again</button> : null }
       </div>
     </div>
   )
